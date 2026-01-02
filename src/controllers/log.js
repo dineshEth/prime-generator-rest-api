@@ -6,10 +6,11 @@ import {
 } from "../db/methods.table.js"
 import { ApiResponse } from "../api/response.api.js"
 import { ApiError } from "../api/error.api.js"
-import { primeBtwnStartEndHALF, primeBtwnStartEndSQRT, primeBtwnStartSEIVE } from "../methods/index.js"
+import {strategySelector} from '../utils/algoSelector.js'
+// import { primeBtwnStartEndHALF, primeBtwnStartEndSQRT, primeBtwnStartSEIVE } from "../methods/index.js"
 
 
-const valid_strategies = ["BHN","BSN","SOE"]; 
+const valid_strategies = ["BHN","BSN","SOE","FBHN","FBSN","FSOE"]; 
 
 const addLogHandler = async (req,res,next) => {
     try {
@@ -39,33 +40,12 @@ const addLogHandler = async (req,res,next) => {
         if (!user) {
             return next(new ApiError(401, "Unauthorized"));
         }
-        
-        let startTime;
-        let endTime;
-        let primes = [];
 
-        // Here you would call the appropriate prime generation function based on strategy
-        switch (strategy) {
-              case "BHN":
-                startTime = performance.now();
-                primes = primeBtwnStartEndHALF(Number(start), Number(end));
-                endTime = performance.now();
-                break;
-              case "BSN":
-                startTime = performance.now();
-                primes = primeBtwnStartEndSQRT(Number(start), Number(end));
-                endTime = performance.now();
-                break;
-              case "SOE":
-                startTime = performance.now();
-                primes = primeBtwnStartSEIVE(Number(start), Number(end));
-                endTime = performance.now();
-                break;
-            }
+        const result = strategySelector(start,end, strategy)
         
         // time elapsed
-        const time_elapsed= (endTime-startTime).toFixed(3); // ms
-        const primes_count = primes.length;
+        const time_elapsed= result?.timeElapsed // ms
+        const primes_count = result?.primeCount;
 
         // insert log
         const log = await insertLog(start, end, time_elapsed, primes_count, strategy, user.id);

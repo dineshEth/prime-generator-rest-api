@@ -36,7 +36,10 @@ const insertStrategiesQuery = `
     INSERT OR IGNORE INTO strategies (symbol, name) VALUES
         ('BHN', 'byHalfNumbers'),
         ('BSN', 'bySqrtNumber'),
-        ('SOE', 'Sieve of Eratosthenes');
+        ('SOE', 'Sieve of Eratosthenes'),
+        ('FBHN', 'fastest byHalfNumbers'),
+        ('FBSN', 'fastest bySqrtNumber'),
+        ('FSOE', 'fastest Sieve of Eratosthenes');
 `;
 
 // get All Logs 
