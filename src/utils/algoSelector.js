@@ -2,10 +2,16 @@ import {fastestHalfNumbers,fastestSOE,fastestSqrt,primeBtwnStartEndHALF,primeBtw
 
 // const Strategies = ["By Half Number","By Sqrt NUmber", "Sieve of Eratosthenes","fastes BHN","fatest BSN","fastest SOE"]
 
-const strategySelector = (start,end,strategy=1)=>{
+const strategySelector = (start,end)=>{
     let primes = []
     let startTime;
     let endTime;
+    if(end<2){
+        return {
+            timeElapsed:0.0, 
+            primeCount: 0, 
+        }
+    }
     // Here you would call the appropriate prime generation function based on strategy
     switch(strategy){
         case '1':

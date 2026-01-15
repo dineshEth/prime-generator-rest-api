@@ -24,12 +24,8 @@ const addLogHandler = async (req,res,next) => {
             return next(new ApiError(400, "Invalid strategy"));
         }
         
-        // validate input
-        if (!start || !end) {
-            return next(new ApiError(400, "Start and end times are required"));
-        }
         // validate input start and end are numbers
-        if (isNaN(start) || isNaN(end) || start < 0 || end < 0 || start >= end) {
+        if (isNaN(start) || isNaN(end) || start >= end) {
             return next(new ApiError(400, "Start and end must be numbers, start must be less than end, and both must be non-negative"));
         }
 
